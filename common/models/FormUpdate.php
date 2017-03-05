@@ -16,8 +16,13 @@ class FormUpdate extends User
 	{
 		parent::afterSave($insert, $changedAttributes);
 
-		if ($this->end_date === '' || $this->end_date === null) {
-			UserSubscription::deleteAll(['user_id' => $this->id]);
+		$subscription = $this->user_subscription;
+
+		/**
+		 * if date is empty, remove subscribe
+		 */
+		if (!$this->end_date && $subscription) {
+			$subscription->delete();
 		} else {
 
 			/**
@@ -30,7 +35,9 @@ class FormUpdate extends User
 			 */
 			$this->end_date += 86399;
 
-			$subscription = UserSubscription::find()->where(['user_id' => $this->id])->one();
+			/**
+			 * if date exists, create subscribe
+			 */
 			if ($subscription === null) {
 				$subscription = new UserSubscription();
 				$subscription->user_id = $this->id;
