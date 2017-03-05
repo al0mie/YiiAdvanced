@@ -44,6 +44,21 @@ class SubscriptionController extends ApiController
 	}
 
 	/**
+     * @return User|null
+     */
+	public function actionUpdate($id)
+	{
+		$model = $this->findModel($id);
+
+		if ($model->load(Yii::$app->request->post(), '') && $model->save()) {
+			return $model;
+		} else {
+			return 'error';
+			return $model->getErrors();
+		}
+	}
+
+	/**
      * Finds the user model based on its primary key value.
 	 *
      * @param integer $id
