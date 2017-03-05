@@ -4,13 +4,9 @@ namespace frontend\controllers;
 
 use common\models\FormUpdate;
 use Yii;
-use common\models\User;
-use common\models\UserSubscription;
 use frontend\models\SubscriptionSearch;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use common\models\LoginForm;
 use yii\web\NotFoundHttpException;
 
 /**
