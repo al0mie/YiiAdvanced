@@ -15,10 +15,6 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
- * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -26,13 +22,48 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    public function getFullName()
+    {
+        return $this->surname . ' ' . $this->name . ' ' . $this->middle_name;
+    }
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%user}}';
+        return 'users';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['login'], 'required'],
+            [['end_date'], 'date', 'format' => 'dd-MM-yyyy'],
+            [['login', 'password', 'name', 'surname', 'middle_name'], 'string'],
+            ['login', 'match', 'pattern' => '/^[a-zA-Z0-9]*$/i'],
+            ['email', 'email'],
+
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'login' => 'Login',
+            'password' => 'Password',
+            'email' => 'Email',
+            'name' => 'Name',
+            'surname' => 'Last Name',
+            'middle_name' => 'Middle Name'
+        ];
     }
 
     /**
@@ -42,17 +73,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
 
