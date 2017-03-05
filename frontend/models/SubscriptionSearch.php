@@ -53,6 +53,7 @@ class SubscriptionSearch extends User
     public function search($params)
     {
         $query = User::find();
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -72,7 +73,7 @@ class SubscriptionSearch extends User
                 'end_date' => [
                     'asc' => ['user_subscription.end_date' => SORT_ASC],
                     'desc' => ['user_subscription.end_date' => SORT_DESC],
-                    'label' => 'end_date',
+                    'label' => 'Expire date',
                     'default' => SORT_ASC
                 ],
                 'email',
@@ -84,7 +85,7 @@ class SubscriptionSearch extends User
         if (!($this->load($params) && $this->validate())) {
 
             /**
-             * greedy load with subscription model for sorting
+             * enable sorting by end_date on initial loading of the grid
              */
             $query->joinWith(['user_subscription']);
             return $dataProvider;
@@ -94,17 +95,21 @@ class SubscriptionSearch extends User
         $this->addCondition($query, 'login', true);
         $this->addCondition($query, 'email', true);
 
-        // filter by full name
-        $query->andWhere('name LIKE "%' . $this->fullName . '%" ' .
-            'OR surname LIKE "%' . $this->fullName . '%" ' .
-            'OR middle_name LIKE "%' . $this->fullName . '%"'
-        );
-
-        // Фильтр по дате
-//        $query->joinWith(['user_subscription' => function ($q) {
-//            $q->where('user_subscription.end_date LIKE "' . $this->end_date . '"');
-//        }]);
-
+        /**
+         * filter by full name
+         */
+        if ($this->fullName) {
+            $query->andWhere('CONCAT_WS(" ", surname, name, middle_name) LIKE "%' . $this->fullName . '%"');
+        }
+        /**
+         * Filter by date
+         */
+        if ($this->end_date) {
+            $this->end_date = strtotime($this->end_date) + 86399;
+            $query->joinWith(['user_subscription' => function ($q) {
+                $q->where('user_subscription.end_date = "' . $this->end_date . '"');
+            }]);
+        }
         return $dataProvider;
     }
 }

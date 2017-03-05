@@ -22,11 +22,6 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
-    public function getFullName()
-    {
-        return $this->surname . ' ' . $this->name . ' ' . $this->middle_name;
-    }
-
     /**
      * @inheritdoc
      */
@@ -42,11 +37,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['login'], 'required'],
-            [['end_date'], 'date', 'format' => 'dd-MM-yyyy'],
             [['login', 'password', 'name', 'surname', 'middle_name'], 'string'],
             ['login', 'match', 'pattern' => '/^[a-zA-Z0-9]*$/i'],
             ['email', 'email'],
         ];
+    }
+
+    public function getFullName()
+    {
+        return $this->surname . ' ' . $this->name . ' ' . $this->middle_name;
     }
 
     /**

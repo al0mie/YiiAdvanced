@@ -5,7 +5,7 @@ namespace common\models;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "user_subscription".
+ * This is the model for table user_subscription
  *
  * @property integer $id
  * @property integer $user_id
@@ -31,8 +31,7 @@ class UserSubscription extends ActiveRecord
         return [
             [['user_id'], 'required'],
             [['user_id'], 'integer'],
-            [['end_date'], 'safe'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['end_date'], 'safe']
         ];
     }
 
@@ -44,7 +43,7 @@ class UserSubscription extends ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'end_date' => 'End Date',
+            'end_date' => 'End Date'
         ];
     }
 

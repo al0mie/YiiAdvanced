@@ -22,11 +22,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'end_date',
                 'attribute' => 'end_date',
                 'filter' => DatePicker::widget([
-                    'name' => 'end_date',
+                    'model' => $searchModel,
+                    'name' => 'SubscriptionSearch[end_date]',
+                    'value' => $searchModel->end_date ? date('d-m-Y', $searchModel->end_date) : '',
                     'clientOptions' => [
                         'autoclose' => true,
-                        'format' => 'dd-mm-yyyy'
-                    ]
+                        'format' => 'dd-mm-yyyy',
+                        'content'=>function($data){
+                            return '12.12.12';
+                        }
+                    ],
                 ]),
 
                 'format' => ['date', 'php:d-m-Y'],
