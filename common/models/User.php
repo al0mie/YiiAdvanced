@@ -53,7 +53,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSubscription()
+    public function getuser_subscription()
     {
         return $this->hasOne(UserSubscription::className(), ['user_id' => 'id']);
     }

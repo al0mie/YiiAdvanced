@@ -70,8 +70,8 @@ class SubscriptionSearch extends User
                     'default' => SORT_ASC
                 ],
                 'end_date' => [
-                    'asc' => ['user_subscriptions.end_date' => SORT_ASC],
-                    'desc' => ['user_subscriptions.end_date' => SORT_DESC],
+                    'asc' => ['user_subscription.end_date' => SORT_ASC],
+                    'desc' => ['user_subscription.end_date' => SORT_DESC],
                     'label' => 'end_date',
                     'default' => SORT_ASC
                 ],
@@ -90,7 +90,7 @@ class SubscriptionSearch extends User
             /**
              * greedy load with subscription model for sorting
              */
-            $query->joinWith(['user_subscriptions']);
+            $query->joinWith(['user_subscription']);
             return $dataProvider;
         }
 
@@ -108,8 +108,8 @@ class SubscriptionSearch extends User
         );
 
         // Фильтр по дате
-//        $query->joinWith(['user_subscriptions' => function ($q) {
-//            $q->where('user_subscriptions.end_date LIKE "' . $this->end_date . '"');
+//        $query->joinWith(['user_subscription' => function ($q) {
+//            $q->where('user_subscription.end_date LIKE "' . $this->end_date . '"');
 //        }]);
 
         return $dataProvider;

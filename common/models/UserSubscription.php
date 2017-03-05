@@ -5,11 +5,11 @@ namespace common\models;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model for table user_subscription.
+ * This is the model class for table "user_subscription".
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $end_date
+ * @property string $end_date
  *
  * @property User $user
  */
