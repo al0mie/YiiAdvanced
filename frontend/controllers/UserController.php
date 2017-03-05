@@ -30,7 +30,7 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all user models.
      * @return mixed
      */
     public function actionIndex()
@@ -45,7 +45,7 @@ class UserController extends Controller
     }
 
     /**
-     * Updates an existing User model.
+     * Update user model.
      *
      * @param integer $id
      * @return mixed
@@ -58,11 +58,11 @@ class UserController extends Controller
             return $this->redirect('index');
         } else {
 
-            if ($model->subscription !== null) {
-                $model->end_date = date('d-m-Y', $model->subscription->end_date);
+            if ($model->user_subscription !== null) {
+                $model->end_date = date('d-m-Y', $model->user_subscription->end_date);
             }
 
-            return $this->render('update', [
+            return $this->render('edit', [
                 'model' => $model,
             ]);
         }
