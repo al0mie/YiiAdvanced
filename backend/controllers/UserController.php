@@ -10,7 +10,7 @@ use yii\filters\AccessControl;
 use yii\rest\Controller;
 use yii\web\NotFoundHttpException;
 
-class SubscriptionController extends ApiController
+class UserController extends ApiController
 {
     public function behaviors()
     {
@@ -53,7 +53,6 @@ class SubscriptionController extends ApiController
 		if ($model->load(Yii::$app->request->post(), '') && $model->save()) {
 			return $model;
 		} else {
-			return 'error';
 			return $model->getErrors();
 		}
 	}
