@@ -75,11 +75,7 @@ class SubscriptionSearch extends User
                     'label' => 'end_date',
                     'default' => SORT_ASC
                 ],
-                'id',
-                'name',
                 'email',
-                'surname',
-                'middle_name',
                 'login'
             ]
         ]);
@@ -95,9 +91,6 @@ class SubscriptionSearch extends User
         }
 
         $this->addCondition($query, 'id');
-        $this->addCondition($query, 'name', true);
-        $this->addCondition($query, 'surname', true);
-        $this->addCondition($query, 'middle_name', true);
         $this->addCondition($query, 'login', true);
         $this->addCondition($query, 'email', true);
 
