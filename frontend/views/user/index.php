@@ -19,18 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'fullName',
             'email',
             [
-                'label' => 'end_date',
+                'label' => 'Expire date',
                 'attribute' => 'end_date',
                 'filter' => DatePicker::widget([
                     'model' => $searchModel,
                     'name' => 'SubscriptionSearch[end_date]',
-                    'value' => $searchModel->end_date ? date('d-m-Y', $searchModel->end_date) : '',
+                    'value' => $searchModel->end_date ? date('d-m-Y', $searchModel->end_date) : null,
                     'clientOptions' => [
                         'autoclose' => true,
-                        'format' => 'dd-mm-yyyy',
-                        'content'=>function($data){
-                            return '12.12.12';
-                        }
+                        'format' => 'dd-mm-yyyy'
                     ],
                 ]),
 

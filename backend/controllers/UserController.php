@@ -16,60 +16,60 @@ class UserController extends ApiController
     {
         $behaviors = parent::behaviors();
 
-		$behaviors['access'] = [
-			'class' => AccessControl::className(),
-			'only' => ['index', 'update'],
-			'rules' => [
-				[
-					'allow' => true,
-					'actions' => ['index', 'update'],
-					'roles' => ['@'],
-				],
-			],
-		];
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'only' => ['index', 'update'],
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => ['index', 'update'],
+                    'roles' => ['@'],
+                ],
+            ],
+        ];
 
-		return $behaviors;
+        return $behaviors;
     }
 
-	/**
+    /**
      * @return array(User)|null
      */
-	public function actionIndex()
-	{
-		$data = (new Query)->select(['users.id AS id', 'CONCAT_WS(" ", users.surname, users.name, users.middle_name) as full_name', 'users.login', 'DATE_FORMAT(FROM_UNIXTIME(user_subscription.end_date),  "%d-%m-%Y") as end_date'])
-			->from('users')->leftJoin('user_subscription', 'user_subscription.user_id = users.id')
-			->orderBy('id')->all();
+    public function actionIndex()
+    {
+        $data = (new Query)->select(['users.id AS id', 'CONCAT_WS(" ", users.surname, users.name, users.middle_name) as full_name', 'users.login', 'DATE_FORMAT(FROM_UNIXTIME(user_subscription.end_date),  "%d-%m-%Y") as end_date'])
+            ->from('users')->leftJoin('user_subscription', 'user_subscription.user_id = users.id')
+            ->orderBy('id')->all();
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
+    /**
      * @return User|null
      */
-	public function actionUpdate($id)
-	{
-		$model = $this->findModel($id);
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
 
-		if ($model->load(Yii::$app->request->post(), '') && $model->save()) {
-			return $model;
-		} else {
-			return $model->getErrors();
-		}
-	}
+        if ($model->load(Yii::$app->request->post(), '') && $model->save()) {
+            return $model;
+        } else {
+            return $model->getErrors();
+        }
+    }
 
-	/**
+    /**
      * Finds the user model based on its primary key value.
-	 *
+     *
      * @param integer $id
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-	protected function findModel($id)
-	{
-		if (($model = FormUpdate::findOne($id)) !== null) {
-			return $model;
-		} else {
-			throw new NotFoundHttpException('The requested page does not exist.');
-		}
-	}
+    protected function findModel($id)
+    {
+        if (($model = FormUpdate::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 }

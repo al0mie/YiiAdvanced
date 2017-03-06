@@ -8,12 +8,12 @@ $i = 100;
 while(--$i) {
     
     $data[] = [
-        'login' => $faker->userName,
+        'login' => $faker->firstName,
         'password' => $faker->password(6),
         'email' => $faker->safeEmail,
         'name' => $faker->firstName,
         'surname' => $faker->lastName,
-        'middle_name' => $faker->domainName
+        'middle_name' => $faker->firstName
     ];
 }
 

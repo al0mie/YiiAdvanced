@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = 'Update';
             'clientOptions' => [
                 'autoclose' => true,
                 'format' => 'dd-mm-yyyy',
-                'startDate' => date('d-m-Y'),
+               
             ]
         ]) ?>
 

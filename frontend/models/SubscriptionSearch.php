@@ -65,8 +65,8 @@ class SubscriptionSearch extends User
             'attributes' => [
                 'id',
                 'fullName' => [
-                    'asc' => ['name' => SORT_ASC, 'surname' => SORT_ASC, 'middle_name' => SORT_ASC],
-                    'desc' => ['name' => SORT_DESC, 'surname' => SORT_DESC, 'middle_name' => SORT_DESC],
+                    'asc' => ['surname' => SORT_ASC, 'name' => SORT_ASC, 'middle_name' => SORT_ASC],
+                    'desc' => ['surname' => SORT_DESC, 'name' => SORT_DESC, 'middle_name' => SORT_DESC],
                     'label' => 'fullName',
                     'default' => SORT_ASC
                 ],

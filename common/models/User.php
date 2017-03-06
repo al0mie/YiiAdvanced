@@ -39,7 +39,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['login'], 'required'],
             [['login', 'password', 'name', 'surname', 'middle_name'], 'string'],
             ['login', 'match', 'pattern' => '/^[a-zA-Z0-9]*$/i'],
-            ['email', 'email'],
+            ['email', 'email']
         ];
     }
 

@@ -4,46 +4,60 @@ namespace common\models;
 
 class FormUpdate extends User
 {
-	public $end_date;
+    public $end_date;
 
-	/**
-	 * Event action after save, check subscription
-	 *
-	 * @param bool $insert
-	 * @param array $changedAttributes
-	 */
-	public function afterSave($insert, $changedAttributes)
-	{
-		parent::afterSave($insert, $changedAttributes);
+    /**
+     * add rule for end date
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
 
-		$subscription = $this->user_subscription;
+        return array_merge($rules, [
+            [['end_date'], 'date', 'format' => 'dd-MM-yyyy'],
+        ]);
+    }
 
-		/**
-		 * if date is empty, remove subscribe
-		 */
-		if (!$this->end_date && $subscription) {
-			$subscription->delete();
-		} else {
+    /**
+     * Event action after save, check subscription
+     *
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
 
-			/**
-			 * convert to unix time
-			 */
-			$this->end_date = strtotime($this->end_date);
+        $subscription = $this->user_subscription;
 
-			/**
-			 * add time before day end (59 + 59 * 60 + 23*60*60)
-			 */
-			$this->end_date += 86399;
+        /**
+         * if date is empty, remove subscribe
+         */
+        if (!$this->end_date && $subscription) {
+            $subscription->delete();
+        } else {
 
-			/**
-			 * if date exists, create subscribe
-			 */
-			if ($subscription === null) {
-				$subscription = new UserSubscription();
-				$subscription->user_id = $this->id;
-			}
-			$subscription->end_date = $this->end_date;
-			$subscription->save();
-		}
-	}
+            /**
+             * convert to unix time
+             */
+            $this->end_date = strtotime($this->end_date);
+
+            /**
+             * add time before day end (59 + 59 * 60 + 23*60*60)
+             */
+            $this->end_date += 86399;
+
+            /**
+             * if date exists, create subscribe
+             */
+            if ($subscription === null) {
+                $subscription = new UserSubscription();
+                $subscription->user_id = $this->id;
+            }
+            $subscription->end_date = $this->end_date;
+            $subscription->save();
+        }
+    }
 }
